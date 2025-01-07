@@ -1,0 +1,24 @@
+tasks:
+  - name: Python Setup
+    before: pip install --user pipenv
+    init: |  
+      unset PIP_USER
+      unset PROMPT_COMMAND
+      pipenv install
+      pipenv install python-dotenv
+    command: |
+      pipenv shell
+
+  - name: Restore .env file
+    command: |
+      if [ -f .env ]; then
+        echo "Found .env in workspace"
+      else
+        echo "Creating .env file"
+        gp env > .env
+      fi
+
+
+vscode:
+  extensions:
+    - ms-python.python
